@@ -8,7 +8,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../assets/splash.png')}
+        source={require('../../../asset/splash.png')}
         resizeMode="cover"
         style={StyleSheet.absoluteFill}
       />

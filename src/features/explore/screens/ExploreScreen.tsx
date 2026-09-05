@@ -1,53 +1,102 @@
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
+import SearchInput from '../components/SearchInput';
+import CategoryMenu from '../components/CategoryMenu';
+import CategorySection from '../components/CategorySection';
 
 const ExploreScreen = () => {
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+
+  const cities = [
+    { label: 'New York', value: 'new_york' },
+    { label: 'London', value: 'london' },
+    { label: 'Paris', value: 'paris' },
+    { label: 'Dubai', value: 'dubai' },
+    { label: 'Tokyo', value: 'tokyo' },
+  ];
+
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.headerContainer}>
-        {/* Left Side */}
-        <View>
-          <Text style={styles.exploreText}>Explore</Text>
-          <Text style={styles.aspenText}>ASPEN</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.headerContainer}>
+          <View>
+            <Text style={styles.exploreText}>Exploresss</Text>
+            <Text style={styles.logoText}>ASPEN</Text>
+          </View>
+
+          <Dropdown
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            data={cities}
+            labelField="label"
+            valueField="value"
+            placeholder="City"
+            value={selectedCity}
+            onChange={item => setSelectedCity(item.value)}
+          />
         </View>
 
-        {/* Right Side */}
-        <View>
-          <Text style={styles.dropdownText}>DropDown</Text>
+        <View style={styles.searchWrapper}>
+          <SearchInput />
         </View>
-      </View>
-    </View>
+
+        <CategoryMenu />
+
+        <CategorySection />
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
-
+  scrollView: {
+    flex: 1,
+  },
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 16,
+    backgroundColor: '#fff',
   },
-
   exploreText: {
     fontSize: 16,
     color: '#666',
   },
-
-  aspenText: {
-    fontSize: 28,
-    fontWeight: 400,
+  logoText: {
+    fontSize: 24,
+    fontWeight: 'bold',
     color: '#000',
-    fontFamily: 'Montserrat-BlackItalic',
   },
-
-  dropdownText: {
-    fontSize: 16,
+  dropdown: {
+    width: 100,
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+  },
+  placeholderStyle: {
+    fontSize: 14,
+    color: '#777',
+  },
+  selectedTextStyle: {
+    fontSize: 14,
     color: '#000',
+  },
+  searchWrapper: {
+    paddingHorizontal: 20,
+    marginBottom: 10,
   },
 });
 
