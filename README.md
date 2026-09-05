@@ -95,3 +95,19 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+# custom fonts
+
+Create New Directory on root
+assets -> fonts -> font family
+
+- create new file for configuration fonts
+  module.exports = {
+  assets: ['./assets/fonts'],
+  };
+
+- Link font run this command
+  npx react-native-asset
+
+- clean gradle
+  ./gradlew clean
