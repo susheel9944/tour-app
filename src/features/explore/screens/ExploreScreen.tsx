@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
+
 import SearchInput from '../components/SearchInput';
 import CategoryMenu from '../components/CategoryMenu';
 import CategorySection from '../components/CategorySection';
 
 const ExploreScreen = () => {
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [searchText, setSearchText] = useState('');
+
+  // NEW STATE
+  const [showAllPopular, setShowAllPopular] = useState(false);
+  const [showAllRecommended, setShowAllRecommended] = useState(false);
 
   const cities = [
-    { label: 'New York', value: 'new_york' },
-    { label: 'London', value: 'london' },
-    { label: 'Paris', value: 'paris' },
-    { label: 'Dubai', value: 'dubai' },
-    { label: 'Tokyo', value: 'tokyo' },
+    { label: 'All', value: '' },
+    { label: 'New York', value: 'New York' },
+    { label: 'London', value: 'London' },
+    { label: 'Paris', value: 'Paris' },
+    { label: 'Dubai', value: 'Dubai' },
+    { label: 'Tokyo', value: 'Tokyo' },
   ];
 
   return (
@@ -24,7 +31,7 @@ const ExploreScreen = () => {
       >
         <View style={styles.headerContainer}>
           <View>
-            <Text style={styles.exploreText}>Exploresss</Text>
+            <Text style={styles.exploreText}>Explore</Text>
             <Text style={styles.logoText}>ASPEN</Text>
           </View>
 
@@ -37,17 +44,28 @@ const ExploreScreen = () => {
             valueField="value"
             placeholder="City"
             value={selectedCity}
-            onChange={item => setSelectedCity(item.value)}
+            onChange={item => {
+              setSelectedCity(item.value || null);
+            }}
           />
         </View>
 
         <View style={styles.searchWrapper}>
-          <SearchInput />
+          <SearchInput value={searchText} onChangeText={setSearchText} />
         </View>
 
         <CategoryMenu />
 
-        <CategorySection />
+        <CategorySection
+          selectedCity={selectedCity}
+          searchText={searchText}
+          showAllPopular={showAllPopular}
+          showAllRecommended={showAllRecommended}
+          onShowAllPopular={() => setShowAllPopular(!showAllPopular)}
+          onShowAllRecommended={() =>
+            setShowAllRecommended(!showAllRecommended)
+          }
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -58,26 +76,30 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+
   scrollView: {
     flex: 1,
   },
+
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    backgroundColor: '#fff',
   },
+
   exploreText: {
     fontSize: 16,
     color: '#666',
   },
+
   logoText: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#000',
   },
+
   dropdown: {
     width: 100,
     height: 40,
@@ -86,14 +108,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
   },
+
   placeholderStyle: {
     fontSize: 14,
     color: '#777',
   },
+
   selectedTextStyle: {
     fontSize: 14,
     color: '#000',
   },
+
   searchWrapper: {
     paddingHorizontal: 20,
     marginBottom: 10,

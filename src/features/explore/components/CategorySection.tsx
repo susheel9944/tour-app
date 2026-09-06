@@ -14,14 +14,35 @@ import { IMAGES } from '../../../constant/images/Images';
 
 const { width } = Dimensions.get('window');
 
-const CategorySection = () => {
+type CategorySectionProps = {
+  selectedCity: string | null;
+  searchText: string;
+
+  showAllPopular: boolean;
+  showAllRecommended: boolean;
+
+  onShowAllPopular: () => void;
+  onShowAllRecommended: () => void;
+};
+
+const CategorySection = ({
+  selectedCity,
+  searchText,
+  showAllPopular,
+  showAllRecommended,
+  onShowAllPopular,
+  onShowAllRecommended,
+}: CategorySectionProps) => {
   // Sample data for popular items
   const popularItems = [
     {
       id: 1,
       title: 'Alley Palace',
+      duration: '2N/4D',
       rating: 4.1,
       stars: 4,
+      city: 'New York',
+      description: 'Semi Luxurious',
       image: IMAGES.alleyPalace,
       isRecommended: false,
     },
@@ -29,6 +50,7 @@ const CategorySection = () => {
       id: 2,
       title: 'Explore Aspen',
       duration: '4N/5D',
+      city: 'Paris',
       description: 'Luxurious Aspen',
       image: IMAGES.exploreAspen,
       isRecommended: false,
@@ -36,8 +58,11 @@ const CategorySection = () => {
     {
       id: 3,
       title: 'Mountain View',
+      duration: '1N/2D',
+      description: 'Luxurious Aspen',
       rating: 4.5,
       stars: 5,
+      city: 'London',
       image: IMAGES.luxuriousAspen,
       isRecommended: false,
     },
@@ -49,6 +74,7 @@ const CategorySection = () => {
       id: 4,
       title: 'Luxurious Aspen',
       duration: '2N/3D',
+      city: 'New York',
       image: IMAGES.mountainView,
       isRecommended: true,
     },
@@ -56,6 +82,7 @@ const CategorySection = () => {
       id: 5,
       title: 'Winter Escape',
       duration: '3N/4D',
+      city: 'Paris',
       image: IMAGES.skiAdventure,
       isRecommended: true,
     },
@@ -63,6 +90,7 @@ const CategorySection = () => {
       id: 6,
       title: 'Ski Adventure',
       duration: '4N/5D',
+      city: 'London',
       image: IMAGES.winterEscape,
       isRecommended: true,
     },
@@ -77,15 +105,41 @@ const CategorySection = () => {
     isRecommended: boolean;
     duration?: string;
     description?: string;
+    city: string;
   };
 
   type RecommendedItem = {
     id: number;
     title: string;
     duration: string;
+    city: string;
     image: ImageSourcePropType;
     isRecommended: boolean;
   };
+
+  const search = searchText.trim().toLowerCase();
+
+  const filteredPopularItems = popularItems.filter(item => {
+    const matchesCity = !selectedCity || item.city === selectedCity;
+
+    const matchesSearch =
+      !search ||
+      item.title.toLowerCase().includes(search) ||
+      item.city.toLowerCase().includes(search);
+
+    return matchesCity && matchesSearch;
+  });
+
+  const filteredRecommendedItems = recommendedItems.filter(item => {
+    const matchesCity = !selectedCity || item.city === selectedCity;
+
+    const matchesSearch =
+      !search ||
+      item.title.toLowerCase().includes(search) ||
+      item.city.toLowerCase().includes(search);
+
+    return matchesCity && matchesSearch;
+  });
 
   const renderRatingStars = (rating: number) => {
     const stars = [];
@@ -103,27 +157,29 @@ const CategorySection = () => {
     return stars;
   };
 
-  const renderSectionHeader = (title: string, seeAll = true) => (
+  const renderSectionHeader = (
+    title: string,
+    showAll: boolean,
+    onPress: () => void,
+  ) => (
     <View style={styles.sectionHeader}>
       <Text style={styles.sectionTitle}>{title}</Text>
-      {seeAll && (
-        <TouchableOpacity>
-          <Text style={styles.seeAllText}>See all</Text>
-        </TouchableOpacity>
-      )}
+
+      <TouchableOpacity onPress={onPress}>
+        <Text style={styles.seeAllText}>
+          {showAll ? 'Show less' : 'See all'}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 
-  const renderPopularCard = (item: PopularItem) => (
-    <TouchableOpacity key={item.id} style={styles.popularCard}>
+  const renderPopularCard = (item: PopularItem, isGrid = false) => (
+    <TouchableOpacity
+      key={item.id}
+      style={[styles.popularCard, isGrid && styles.popularCardGrid]}
+    >
       <View style={styles.imageContainer}>
         <Image source={item.image} style={styles.image} resizeMode="cover" />
-
-        {item.isRecommended && (
-          <View style={styles.recommendedBadge}>
-            <Text style={styles.recommendedText}>Recommended</Text>
-          </View>
-        )}
       </View>
 
       <Text style={styles.cardTitle}>{item.title}</Text>
@@ -138,16 +194,13 @@ const CategorySection = () => {
         </View>
       )}
 
-      {item.duration && (
-        <View style={styles.durationContainer}>
-          <Icon name="time-outline" size={14} color="#666" />
-          <Text style={styles.durationText}>{item.duration}</Text>
-        </View>
-      )}
+      <View style={styles.durationContainer}>
+        <Icon name="time-outline" size={14} color="#666" />
 
-      {item.description && (
-        <Text style={styles.descriptionText}>{item.description}</Text>
-      )}
+        <Text style={styles.durationText}>{item.duration}</Text>
+      </View>
+
+      <Text style={styles.descriptionText}>{item.description}</Text>
     </TouchableOpacity>
   );
 
@@ -175,23 +228,43 @@ const CategorySection = () => {
     <View style={styles.container}>
       {/* Popular Section */}
       <View style={styles.section}>
-        {renderSectionHeader('Popular')}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.horizontalScroll}
-          contentContainerStyle={styles.horizontalScrollContent}
-        >
-          {popularItems.map(item => renderPopularCard(item))}
-        </ScrollView>
+        {renderSectionHeader('Popular', showAllPopular, onShowAllPopular)}
+
+        {showAllPopular ? (
+          <View style={styles.popularGrid}>
+            {filteredPopularItems.map(item => renderPopularCard(item))}
+          </View>
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.horizontalScroll}
+            contentContainerStyle={styles.horizontalScrollContent}
+          >
+            {filteredPopularItems.map(item => renderPopularCard(item))}
+          </ScrollView>
+        )}
       </View>
 
       {/* Recommended Section */}
       <View style={styles.section}>
-        {renderSectionHeader('Recommended', false)}
-        <View style={styles.recommendedGrid}>
-          {recommendedItems.map(item => renderRecommendedCard(item))}
-        </View>
+        {renderSectionHeader(
+          'Recommended',
+          showAllRecommended,
+          onShowAllRecommended,
+        )}
+
+        {showAllRecommended ? (
+          <View style={styles.recommendedGrid}>
+            {filteredRecommendedItems.map(item => renderRecommendedCard(item))}
+          </View>
+        ) : (
+          <View style={styles.recommendedGrid}>
+            {filteredRecommendedItems
+              .slice(0, 2)
+              .map(item => renderRecommendedCard(item))}
+          </View>
+        )}
       </View>
     </View>
   );
@@ -383,6 +456,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#000',
+  },
+  popularGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  popularCardGrid: {
+    width: (width - 52) / 2,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginBottom: 16,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
 });
 

@@ -1,9 +1,13 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+
+  const handleExplore = () => {
+    navigation.navigate('MainTabs' as never);
+  };
 
   return (
     <View style={styles.container}>
@@ -23,10 +27,7 @@ const HomeScreen = () => {
           <Text style={styles.text}>Luxurious Vacation</Text>
         </View>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => (navigation as any).navigate('Explorescreen')}
-        >
+        <TouchableOpacity style={styles.button} onPress={handleExplore}>
           <Text style={styles.buttonText}>Explore</Text>
         </TouchableOpacity>
       </View>
@@ -46,39 +47,33 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    fontSize: 36,
+    fontSize: 40,
     fontWeight: 'bold',
     color: '#fff',
-    fontFamily: 'Montserrat-BlackItalic',
   },
 
   bottomContent: {
-    paddingHorizontal: 30,
-    paddingBottom: 40,
+    padding: 30,
   },
 
   textContainer: {
-    alignItems: 'flex-start',
-    marginBottom: 25,
+    marginBottom: 20,
   },
 
   text: {
-    fontFamily: 'Montserrat-BlackItalic',
-    fontSize: 32,
-    fontWeight: '600',
+    fontSize: 28,
     color: '#fff',
+    fontWeight: '600',
   },
 
   button: {
-    alignSelf: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: '#fff',
     paddingVertical: 15,
-    paddingHorizontal: 40,
     borderRadius: 10,
+    alignItems: 'center',
   },
 
   buttonText: {
-    color: '#fff',
     fontSize: 18,
     fontWeight: '600',
   },

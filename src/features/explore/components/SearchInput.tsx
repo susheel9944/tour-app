@@ -1,13 +1,20 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-const SearchInput = () => {
+type SearchInputProps = {
+  value: string;
+  onChangeText: (text: string) => void;
+};
+
+const SearchInput = ({ value, onChangeText }: SearchInputProps) => {
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Search"
+        placeholder="Search by city or title"
         placeholderTextColor="#999"
+        value={value}
+        onChangeText={onChangeText}
       />
     </View>
   );

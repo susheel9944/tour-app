@@ -111,3 +111,10 @@ assets -> fonts -> font family
 
 - clean gradle
   ./gradlew clean
+
+# For Bottom Tab
+
+- install package
+  npm install @react-navigation/native @react-navigation/bottom-tabs
+  npm install react-native-screens react-native-safe-area-context
+  npm install react-native-vector-icons
