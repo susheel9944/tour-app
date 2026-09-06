@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from '../features/Splash/screens/SplashScreen';
 import HomeScreen from '../features/home/screens/HomeScreen';
 import BottomTabNavigator from './BottomTabNavigator';
+import DetailScreen from '../features/tourdetail/screens/DetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,14 @@ const AppNavigator = () => {
 
         {/* Explore - BottomTab is visible */}
         <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
+        <Stack.Screen
+          name="Details"
+          component={DetailScreen}
+          options={{
+            headerShown: true,
+            title: 'Details',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { IMAGES } from '../../../constant/images/Images';
+import { useNavigation } from '@react-navigation/native';
+import { ExploreStackParamList, DetailItem } from '../../../constant/type';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const { width } = Dimensions.get('window');
 
@@ -25,6 +28,35 @@ type CategorySectionProps = {
   onShowAllRecommended: () => void;
 };
 
+type PopularItem = {
+  id: number;
+  title: string;
+  rating?: number;
+  stars?: number;
+  image: ImageSourcePropType;
+  isRecommended: boolean;
+  duration?: string;
+  description: string;
+  city: string;
+};
+
+type RecommendedItem = {
+  id: number;
+  title: string;
+  duration: string;
+  city: string;
+  description: string;
+  rating?: number;
+  stars?: number;
+  image: ImageSourcePropType;
+  isRecommended: boolean;
+};
+
+type NavigationProp = NativeStackNavigationProp<
+  ExploreStackParamList,
+  'ExploreHome'
+>;
+
 const CategorySection = ({
   selectedCity,
   searchText,
@@ -33,6 +65,15 @@ const CategorySection = ({
   onShowAllPopular,
   onShowAllRecommended,
 }: CategorySectionProps) => {
+  const navigation = useNavigation<NavigationProp>();
+
+  const handleCardPress = (item: DetailItem) => {
+    console.log('Selected item:', item);
+
+    navigation.navigate('Details', {
+      item,
+    });
+  };
   // Sample data for popular items
   const popularItems = [
     {
@@ -75,6 +116,7 @@ const CategorySection = ({
       title: 'Luxurious Aspen',
       duration: '2N/3D',
       city: 'New York',
+      description: 'Lower Luxurious',
       image: IMAGES.mountainView,
       isRecommended: true,
     },
@@ -83,6 +125,7 @@ const CategorySection = ({
       title: 'Winter Escape',
       duration: '3N/4D',
       city: 'Paris',
+      description: ' Luxurious',
       image: IMAGES.skiAdventure,
       isRecommended: true,
     },
@@ -91,31 +134,11 @@ const CategorySection = ({
       title: 'Ski Adventure',
       duration: '4N/5D',
       city: 'London',
+      description: 'Semi Luxurious',
       image: IMAGES.winterEscape,
       isRecommended: true,
     },
   ];
-
-  type PopularItem = {
-    id: number;
-    title: string;
-    rating?: number;
-    stars?: number;
-    image: ImageSourcePropType;
-    isRecommended: boolean;
-    duration?: string;
-    description?: string;
-    city: string;
-  };
-
-  type RecommendedItem = {
-    id: number;
-    title: string;
-    duration: string;
-    city: string;
-    image: ImageSourcePropType;
-    isRecommended: boolean;
-  };
 
   const search = searchText.trim().toLowerCase();
 
@@ -177,6 +200,8 @@ const CategorySection = ({
     <TouchableOpacity
       key={item.id}
       style={[styles.popularCard, isGrid && styles.popularCardGrid]}
+      activeOpacity={0.8}
+      onPress={() => handleCardPress(item)}
     >
       <View style={styles.imageContainer}>
         <Image source={item.image} style={styles.image} resizeMode="cover" />
@@ -205,7 +230,12 @@ const CategorySection = ({
   );
 
   const renderRecommendedCard = (item: RecommendedItem) => (
-    <TouchableOpacity key={item.id} style={styles.recommendedCard}>
+    <TouchableOpacity
+      key={item.id}
+      style={styles.recommendedCard}
+      activeOpacity={0.8}
+      onPress={() => handleCardPress(item)}
+    >
       <Image
         source={item.image}
         style={styles.recommendedImage}

@@ -31,7 +31,6 @@ const ExploreScreen = () => {
       >
         <View style={styles.headerContainer}>
           <View>
-            <Text style={styles.exploreText}>Explore</Text>
             <Text style={styles.logoText}>ASPEN</Text>
           </View>
 
