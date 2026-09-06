@@ -7,6 +7,8 @@ export type DetailItem = {
   description: string;
   rating?: number;
   stars?: number;
+  price: number;
+  order_id: number;
   image: ImageSourcePropType;
 };
 

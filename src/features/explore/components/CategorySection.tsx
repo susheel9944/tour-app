@@ -36,6 +36,8 @@ type PopularItem = {
   image: ImageSourcePropType;
   isRecommended: boolean;
   duration?: string;
+  price: number;
+  order_id: number;
   description: string;
   city: string;
 };
@@ -48,6 +50,8 @@ type RecommendedItem = {
   description: string;
   rating?: number;
   stars?: number;
+  price: number;
+  order_id: number;
   image: ImageSourcePropType;
   isRecommended: boolean;
 };
@@ -83,6 +87,8 @@ const CategorySection = ({
       rating: 4.1,
       stars: 4,
       city: 'New York',
+      price: 199,
+      order_id: 132467,
       description: 'Semi Luxurious',
       image: IMAGES.alleyPalace,
       isRecommended: false,
@@ -92,6 +98,10 @@ const CategorySection = ({
       title: 'Explore Aspen',
       duration: '4N/5D',
       city: 'Paris',
+      rating: 2.1,
+      stars: 3,
+      price: 200,
+      order_id: 9060594,
       description: 'Luxurious Aspen',
       image: IMAGES.exploreAspen,
       isRecommended: false,
@@ -104,6 +114,8 @@ const CategorySection = ({
       rating: 4.5,
       stars: 5,
       city: 'London',
+      price: 309,
+      order_id: 540329659,
       image: IMAGES.luxuriousAspen,
       isRecommended: false,
     },
@@ -117,6 +129,8 @@ const CategorySection = ({
       duration: '2N/3D',
       city: 'New York',
       description: 'Lower Luxurious',
+      price: 109,
+      order_id: 9123876432,
       image: IMAGES.mountainView,
       isRecommended: true,
     },
@@ -126,6 +140,8 @@ const CategorySection = ({
       duration: '3N/4D',
       city: 'Paris',
       description: ' Luxurious',
+      price: 139,
+      order_id: 85392005933235,
       image: IMAGES.skiAdventure,
       isRecommended: true,
     },
@@ -135,6 +151,8 @@ const CategorySection = ({
       duration: '4N/5D',
       city: 'London',
       description: 'Semi Luxurious',
+      price: 159,
+      order_id: 5934030960409324,
       image: IMAGES.winterEscape,
       isRecommended: true,
     },

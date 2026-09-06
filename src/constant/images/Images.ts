@@ -6,3 +6,7 @@ export const IMAGES = {
   winterEscape: require('../../asset/img5.jpg'),
   skiAdventure: require('../../asset/img6.png'),
 };
+
+export const IMAGESICON = {
+  arrow: require('../../asset/ArrowRight.png'),
+};
