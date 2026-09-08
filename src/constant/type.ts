@@ -19,3 +19,16 @@ export type ExploreStackParamList = {
     item: DetailItem;
   };
 };
+
+export type RootStackParamList = {
+  Splash: undefined;
+  Home: undefined;
+  MainTabs: undefined;
+
+  Details: {
+    item: DetailItem;
+  };
+
+  Payment: undefined;
+  Camera: undefined;
+};

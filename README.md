@@ -122,3 +122,12 @@ assets -> fonts -> font family
 # Roazarpay
 
 - In payment screen Roazarpay key must give Test key
+
+# Task
+
+Camera - Done
+Location
+Microphone
+Notifications
+Photos
+Contacts

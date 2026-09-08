@@ -12,9 +12,13 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import { IMAGES } from '../../../constant/images/Images';
 import { useNavigation } from '@react-navigation/native';
-import { ExploreStackParamList, DetailItem } from '../../../constant/type';
+// import { ExploreStackParamList, DetailItem } from '../../../constant/type';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
+import {
+  ExploreStackParamList,
+  DetailItem,
+  RootStackParamList,
+} from '../../../constant/type';
 const { width } = Dimensions.get('window');
 
 type CategorySectionProps = {
@@ -56,10 +60,11 @@ type RecommendedItem = {
   isRecommended: boolean;
 };
 
-type NavigationProp = NativeStackNavigationProp<
-  ExploreStackParamList,
-  'ExploreHome'
->;
+// type NavigationProp = NativeStackNavigationProp<
+//   ExploreStackParamList,
+//   'ExploreHome'
+// >;
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const CategorySection = ({
   selectedCity,
@@ -206,11 +211,23 @@ const CategorySection = ({
     <View style={styles.sectionHeader}>
       <Text style={styles.sectionTitle}>{title}</Text>
 
-      <TouchableOpacity onPress={onPress}>
-        <Text style={styles.seeAllText}>
-          {showAll ? 'Show less' : 'See all'}
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.headerRight}>
+        {/* Camera Button */}
+        <TouchableOpacity
+          style={styles.cameraButton}
+          onPress={() => navigation.navigate('Camera')}
+          activeOpacity={0.7}
+        >
+          <Icon name="camera-outline" size={24} color="#000" />
+        </TouchableOpacity>
+
+        {/* See All */}
+        <TouchableOpacity onPress={onPress}>
+          <Text style={styles.seeAllText}>
+            {showAll ? 'Show less' : 'See all'}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -524,6 +541,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  cameraButton: {
+    marginRight: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 2,
   },
 });
 
