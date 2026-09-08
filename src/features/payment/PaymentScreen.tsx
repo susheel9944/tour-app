@@ -59,7 +59,7 @@ const PaymentScreen = () => {
 
         currency: 'INR',
 
-        key: 'rzp_test_TZAr9e3rLGaBu9',
+        key: '',
 
         amount: order.amount,
 
