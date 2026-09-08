@@ -6,6 +6,7 @@ import SplashScreen from '../features/Splash/screens/SplashScreen';
 import HomeScreen from '../features/home/screens/HomeScreen';
 import BottomTabNavigator from './BottomTabNavigator';
 import DetailScreen from '../features/tourdetail/screens/DetailScreen';
+import PaymentScreen from '../features/payment/PaymentScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ const AppNavigator = () => {
             title: 'Details',
           }}
         />
+        <Stack.Screen name="Payment" component={PaymentScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

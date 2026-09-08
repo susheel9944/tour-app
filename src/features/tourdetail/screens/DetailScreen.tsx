@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { IMAGESICON } from '../../../constant/images/Images';
 
 const DetailScreen = () => {
+  const navigation = useNavigation<any>();
   const route = useRoute();
 
   const { item } = route.params as any;
@@ -20,6 +21,11 @@ const DetailScreen = () => {
 
   const handleBookNow = () => {
     console.log('Book Now clicked', item);
+
+    navigation.navigate('Payment', {
+      item: item,
+      amount: Number(item.price || 199),
+    });
   };
 
   return (
@@ -54,7 +60,7 @@ const DetailScreen = () => {
           <Text style={styles.price}>${item.price || '199'}</Text>
         </View>
 
-        {/* Book Now Button */}
+        {/* Book Now */}
         <TouchableOpacity
           style={styles.bookButton}
           onPress={handleBookNow}
@@ -123,12 +129,10 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
 
-  // Bottom bar
   bottomBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-
     backgroundColor: '#fff',
 
     paddingLeft: 20,
@@ -197,6 +201,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginRight: 15,
   },
+
   arrowImage: {
     width: 32,
     height: 32,
