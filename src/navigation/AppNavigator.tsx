@@ -9,6 +9,7 @@ import DetailScreen from '../features/tourdetail/screens/DetailScreen';
 import PaymentScreen from '../features/payment/PaymentScreen';
 import CameraScreen from '../features/camera/CameraScreen';
 import { RootStackParamList } from '../constant/type';
+import LocationScreen from '../features/location/LocationScreen';
 // const Stack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const AppNavigator = () => {
@@ -41,6 +42,14 @@ const AppNavigator = () => {
           component={CameraScreen}
           options={{
             title: 'Take Photo',
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="Location"
+          component={LocationScreen}
+          options={{
+            title: 'Location',
             headerShown: true,
           }}
         />

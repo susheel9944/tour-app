@@ -220,6 +220,9 @@ const CategorySection = ({
         >
           <Icon name="camera-outline" size={24} color="#000" />
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Location')}>
+          <Icon name="location-outline" size={28} color="#000" />
+        </TouchableOpacity>
 
         {/* See All */}
         <TouchableOpacity onPress={onPress}>

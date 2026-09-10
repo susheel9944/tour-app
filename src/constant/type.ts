@@ -31,4 +31,5 @@ export type RootStackParamList = {
 
   Payment: undefined;
   Camera: undefined;
+  Location: undefined;
 };
