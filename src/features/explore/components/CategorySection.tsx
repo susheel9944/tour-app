@@ -19,6 +19,10 @@ import {
   DetailItem,
   RootStackParamList,
 } from '../../../constant/type';
+import {
+  popularItems,
+  recommendedItems,
+} from '../../../constant/data/tourData';
 const { width } = Dimensions.get('window');
 
 type CategorySectionProps = {
@@ -38,7 +42,7 @@ type PopularItem = {
   rating?: number;
   stars?: number;
   image: ImageSourcePropType;
-  isRecommended: boolean;
+  isRecommended?: boolean;
   duration?: string;
   price: number;
   order_id: number;
@@ -49,7 +53,7 @@ type PopularItem = {
 type RecommendedItem = {
   id: number;
   title: string;
-  duration: string;
+  duration?: string;
   city: string;
   description: string;
   rating?: number;
@@ -57,7 +61,7 @@ type RecommendedItem = {
   price: number;
   order_id: number;
   image: ImageSourcePropType;
-  isRecommended: boolean;
+  isRecommended?: boolean;
 };
 
 // type NavigationProp = NativeStackNavigationProp<
@@ -77,91 +81,10 @@ const CategorySection = ({
   const navigation = useNavigation<NavigationProp>();
 
   const handleCardPress = (item: DetailItem) => {
-    console.log('Selected item:', item);
-
     navigation.navigate('Details', {
-      item,
+      itemId: String(item.id),
     });
   };
-  // Sample data for popular items
-  const popularItems = [
-    {
-      id: 1,
-      title: 'Alley Palace',
-      duration: '2N/4D',
-      rating: 4.1,
-      stars: 4,
-      city: 'New York',
-      price: 199,
-      order_id: 132467,
-      description: 'Semi Luxurious',
-      image: IMAGES.alleyPalace,
-      isRecommended: false,
-    },
-    {
-      id: 2,
-      title: 'Explore Aspen',
-      duration: '4N/5D',
-      city: 'Paris',
-      rating: 2.1,
-      stars: 3,
-      price: 200,
-      order_id: 9060594,
-      description: 'Luxurious Aspen',
-      image: IMAGES.exploreAspen,
-      isRecommended: false,
-    },
-    {
-      id: 3,
-      title: 'Mountain View',
-      duration: '1N/2D',
-      description: 'Luxurious Aspen',
-      rating: 4.5,
-      stars: 5,
-      city: 'London',
-      price: 309,
-      order_id: 540329659,
-      image: IMAGES.luxuriousAspen,
-      isRecommended: false,
-    },
-  ];
-
-  // Sample data for recommended items
-  const recommendedItems = [
-    {
-      id: 4,
-      title: 'Luxurious Aspen',
-      duration: '2N/3D',
-      city: 'New York',
-      description: 'Lower Luxurious',
-      price: 109,
-      order_id: 9123876432,
-      image: IMAGES.mountainView,
-      isRecommended: true,
-    },
-    {
-      id: 5,
-      title: 'Winter Escape',
-      duration: '3N/4D',
-      city: 'Paris',
-      description: ' Luxurious',
-      price: 139,
-      order_id: 85392005933235,
-      image: IMAGES.skiAdventure,
-      isRecommended: true,
-    },
-    {
-      id: 6,
-      title: 'Ski Adventure',
-      duration: '4N/5D',
-      city: 'London',
-      description: 'Semi Luxurious',
-      price: 159,
-      order_id: 5934030960409324,
-      image: IMAGES.winterEscape,
-      isRecommended: true,
-    },
-  ];
 
   const search = searchText.trim().toLowerCase();
 
@@ -267,7 +190,7 @@ const CategorySection = ({
     </TouchableOpacity>
   );
 
-  const renderRecommendedCard = (item: RecommendedItem) => (
+  const renderRecommendedCard = (item: DetailItem) => (
     <TouchableOpacity
       key={item.id}
       style={styles.recommendedCard}
@@ -283,11 +206,13 @@ const CategorySection = ({
       <View style={styles.recommendedContent}>
         <Text style={styles.recommendedTitle}>{item.title}</Text>
 
-        <View style={styles.durationContainer}>
-          <Icon name="time-outline" size={14} color="#666" />
+        {/* {item.duration && (
+          <View style={styles.durationContainer}>
+            <Icon name="time-outline" size={14} color="#666" />
 
-          <Text style={styles.durationText}>{item.duration}</Text>
-        </View>
+            <Text style={styles.durationText}>{item.duration}</Text>
+          </View>
+        )} */}
       </View>
     </TouchableOpacity>
   );

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
+
+import { Linking } from 'react-native';
 
 import SearchInput from '../components/SearchInput';
 import CategoryMenu from '../components/CategoryMenu';
@@ -22,7 +24,21 @@ const ExploreScreen = () => {
     { label: 'Dubai', value: 'Dubai' },
     { label: 'Tokyo', value: 'Tokyo' },
   ];
+  useEffect(() => {
+    // When app is already open
+    const subscription = Linking.addEventListener('url', event => {
+      console.log('Deep link received:', event.url);
+    });
 
+    // When app is opened using deep link
+    Linking.getInitialURL().then(url => {
+      console.log('Initial URL:', url);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView

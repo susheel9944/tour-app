@@ -12,24 +12,58 @@ export type DetailItem = {
   image: ImageSourcePropType;
 };
 
+export type TourItem = {
+  id: string;
+  title: string;
+  city?: string;
+  duration?: string;
+  price?: number;
+  image: any;
+  description?: string;
+  rating?: number;
+  stars?: number;
+};
+
 export type ExploreStackParamList = {
   ExploreHome: undefined;
 
   Details: {
-    item: DetailItem;
+    itemId: DetailItem;
   };
 };
 
+// export type RootStackParamList = {
+//   Splash: undefined;
+//   Login: undefined;
+//   Register: undefined;
+//   Home: undefined;
+//   MainTabs: undefined;
+
+//   Details: {
+//     item: DetailItem;
+//   };
+
+//   Payment: undefined;
+//   Camera: undefined;
+//   Location: undefined;
+// };
+
 export type RootStackParamList = {
   Splash: undefined;
+  Login: undefined;
+  Register: undefined;
   Home: undefined;
   MainTabs: undefined;
 
   Details: {
-    item: DetailItem;
+    itemId: string;
   };
 
-  Payment: undefined;
+  Payment: {
+    item: DetailItem;
+    amount: number;
+  };
+
   Camera: undefined;
   Location: undefined;
 };

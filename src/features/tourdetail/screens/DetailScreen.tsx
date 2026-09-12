@@ -7,30 +7,49 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+
 import { IMAGESICON } from '../../../constant/images/Images';
 
-const DetailScreen = () => {
-  const navigation = useNavigation<any>();
-  const route = useRoute();
+import { RootStackParamList, DetailItem } from '../../../constant/type';
 
-  const { item } = route.params as any;
+import { allTours } from '../../../constant/data/tourData';
 
-  console.log('item details page', item);
+type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
+
+const DetailScreen = ({ route, navigation }: Props) => {
+  const { itemId } = route.params;
+
+  console.log('Deep Link Item ID:', itemId);
+
+  const item = allTours.find(tour => tour.id === Number(itemId));
+
+  if (!item) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Tour not found</Text>
+
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.backText}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  console.log('Selected tour:', item);
 
   const handleBookNow = () => {
-    console.log('Book Now clicked', item);
-
     navigation.navigate('Payment', {
-      item: item,
+      item,
       amount: Number(item.price || 199),
     });
   };
 
   return (
     <View style={styles.container}>
-      {/* Scrollable Content */}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <Image source={item.image} style={styles.image} resizeMode="cover" />
 
@@ -41,26 +60,15 @@ const DetailScreen = () => {
         {item.description && (
           <Text style={styles.description}>{item.description}</Text>
         )}
-
-        {item.duration && (
-          <View style={styles.durationContainer}>
-            <Icon name="time-outline" size={18} color="#666" />
-
-            <Text style={styles.duration}>{item.duration}</Text>
-          </View>
-        )}
       </ScrollView>
 
-      {/* Bottom Booking Bar */}
       <View style={styles.bottomBar}>
-        {/* Price */}
         <View style={styles.priceContainer}>
           <Text style={styles.priceLabel}>Price</Text>
 
           <Text style={styles.price}>${item.price || '199'}</Text>
         </View>
 
-        {/* Book Now */}
         <TouchableOpacity
           style={styles.bookButton}
           onPress={handleBookNow}
@@ -206,6 +214,23 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     marginLeft: 10,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  errorText: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#000',
+  },
+
+  backText: {
+    marginTop: 15,
+    color: '#2176E8',
+    fontSize: 16,
   },
 });
 

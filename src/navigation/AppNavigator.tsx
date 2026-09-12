@@ -8,13 +8,37 @@ import BottomTabNavigator from './BottomTabNavigator';
 import DetailScreen from '../features/tourdetail/screens/DetailScreen';
 import PaymentScreen from '../features/payment/PaymentScreen';
 import CameraScreen from '../features/camera/CameraScreen';
-import { RootStackParamList } from '../constant/type';
 import LocationScreen from '../features/location/LocationScreen';
-// const Stack = createNativeStackNavigator();
+
+import { RootStackParamList } from '../constant/type';
+import LoginScreen from '../features/Login/screens/Login';
+import RegisterScreen from '../features/Login/screens/Registration';
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const linking = {
+  prefixes: ['myapp://', 'https://myapp.com'],
+
+  config: {
+    screens: {
+      Splash: 'splash',
+      Login: 'login',
+      Register: 'register',
+      Home: 'home',
+      MainTabs: 'main',
+
+      Details: 'details/:itemId',
+
+      Payment: 'payment',
+      Camera: 'camera',
+      Location: 'location',
+    },
+  },
+};
+
 const AppNavigator = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator
         initialRouteName="Splash"
         screenOptions={{
@@ -23,11 +47,14 @@ const AppNavigator = () => {
       >
         <Stack.Screen name="Splash" component={SplashScreen} />
 
-        {/* Home - NO BottomTab */}
+        <Stack.Screen name="Login" component={LoginScreen} />
+
+        <Stack.Screen name="Register" component={RegisterScreen} />
+
         <Stack.Screen name="Home" component={HomeScreen} />
 
-        {/* Explore - BottomTab is visible */}
         <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
+
         <Stack.Screen
           name="Details"
           component={DetailScreen}
@@ -36,23 +63,12 @@ const AppNavigator = () => {
             title: 'Details',
           }}
         />
+
         <Stack.Screen name="Payment" component={PaymentScreen} />
-        <Stack.Screen
-          name="Camera"
-          component={CameraScreen}
-          options={{
-            title: 'Take Photo',
-            headerShown: true,
-          }}
-        />
-        <Stack.Screen
-          name="Location"
-          component={LocationScreen}
-          options={{
-            title: 'Location',
-            headerShown: true,
-          }}
-        />
+
+        <Stack.Screen name="Camera" component={CameraScreen} />
+
+        <Stack.Screen name="Location" component={LocationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
