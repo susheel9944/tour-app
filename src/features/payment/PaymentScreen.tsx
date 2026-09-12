@@ -110,9 +110,10 @@ const PaymentScreen = () => {
             {
               text: 'OK',
               onPress: () => {
-                navigation.navigate('Details', {
-                  item: item,
-                });
+                // navigation.navigate('Details', {
+                //   item: item,
+                // });
+                navigation.navigate('MainTabs');
               },
             },
           ],
